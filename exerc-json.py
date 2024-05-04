@@ -7,5 +7,4 @@ def read_json_file(file_json):
         content = json.loads(j.read())
     return content
 
-
-print(read_json_file(file_json)) 
+print(read_json_file(file_json))
