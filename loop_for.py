@@ -71,3 +71,14 @@ for num in range(num_range):
 fruits = ["apple", "banana", "cherry"]
 for x in fruits:
   print(x)
+
+nomes = ["Marcelo", "Ana", "Pedro", "Maria"]
+for nome in nomes:
+    print(nome)
+
+for index in range(len(nomes)):
+    #print(index)
+    #print(nomes[index])
+    print(f"{index} - {nomes[index]}")
+
+
