@@ -1,0 +1,20 @@
+{
+    "123": {
+        "nome": "João",
+        "idade": 30,
+        "endereco": {
+            "rua": "Rua A",
+            "numero": 123, 
+            "cidade": "São Paulo"
+        },
+        "profissao": "Engenheiro"
+
+    }, 
+    "123214": {
+        "nome": "Marcelo",
+        "idade": 30,
+        "cidade": "Poa",
+        "profissao": "devops"
+    }
+
+}
