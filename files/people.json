@@ -1,0 +1,42 @@
+[
+  {
+    "id": "a1b2c3d4",
+    "nome": "João Silva",
+    "idade": 28,
+    "email": "joao.silva@example.com",
+    "cidade": "Rio de Janeiro",
+    "profissao": "Engenheiro"
+  },
+  {
+    "id": "e5f6g7h8",
+    "nome": "Maria Oliveira",
+    "idade": 35,
+    "email": "maria.o@example.com",
+    "cidade": "Belo Horizonte",
+    "profissao": "Professora"
+  },
+  {
+    "id": "i9j0k1l2",
+    "nome": "Pedro Santos",
+    "idade": 22,
+    "email": "pedro.s@example.com",
+    "cidade": "São Paulo",
+    "profissao": "Estudante"
+  },
+  {
+    "id": "m3n4o5p6",
+    "nome": "Juliana Costa",
+    "idade": 41,
+    "email": "juliana.c@example.com",
+    "cidade": "Porto Alegre",
+    "profissao": "Designer"
+  },
+  {
+    "id": "q7r8s9t0",
+    "nome": "Fernando Souza",
+    "idade": 50,
+    "email": "fernando.s@example.com",
+    "cidade": "Curitiba",
+    "profissao": "Gerente de Projetos"
+  }
+]
