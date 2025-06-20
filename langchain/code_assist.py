@@ -303,6 +303,7 @@ workflow.add_conditional_edges(
     }
 )
 
+
 workflow.add_edge('tool_node', 'llm_node') # Sempre retorna para o LLM para processar o resultado da ferramenta
 
 app = workflow.compile()
