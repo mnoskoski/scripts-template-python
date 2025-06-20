@@ -21,7 +21,73 @@ from langchain_core.messages import SystemMessage
 from langgraph.graph import StateGraph, END
 import yaml # Importar PyYAML para parsear YAML
 
+# LangGraph para a orquestração
+from langgraph.graph import StateGraph, END
+import yaml # Importar PyYAML para parsear YAML
+
+
+# --- NOVO: Importações para RAG ---
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
+from langchain_community.vectorstores import FAISS
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+
+# --- NOVO: Configuração do Retriever (Base de Conhecimento) ---
+print("Configurando a base de conhecimento (RAG)...")
+# 1. Carregar os embeddings do Google
+embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
+# 2. Carregar os documentos da pasta knowledge_base
+loader = DirectoryLoader(
+    "./knowledge_base/",
+    glob="**/*.md", # Carrega todos os arquivos markdown
+    loader_cls=TextLoader,
+    loader_kwargs={"encoding": "utf-8"},
+    show_progress=True,
+    use_multithreading=True
+)
+documents = loader.load()
+
+# 3. Dividir os documentos em pedaços menores (chunks)
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+docs = text_splitter.split_documents(documents)
+
+# 4. Criar o VectorStore com FAISS e o Retriever
+# Isso cria um índice local dos seus documentos para busca rápida
+vector_store = FAISS.from_documents(docs, embeddings)
+retriever = vector_store.as_retriever(search_kwargs={"k": 3}) # Retorna os 3 chunks mais relevantes
+
+print("Base de conhecimento pronta.")
+
+
+print("digite 'sair' para sair do assistente de código.")
+
+while True:
+    user_input = input("Você: ")
+    if user_input.lower() == 'sair':
+        print("Saindo do assistente de código. Até logo!")
+        break
+
+    # Chama a função principal com o input do usuário
+    run_code_assistant(user_input)
 # --- 1. Definir as Ferramentas (Tools) ---
+
+# --- NOVO: Ferramenta para consultar a base de conhecimento ---
+@tool
+def consult_knowledge_base(query: str) -> str:
+    """Consulta a base de conhecimento interna para encontrar padrões de desenvolvimento, exemplos de código e convenções.
+    Use esta ferramenta PRIMEIRO para qualquer tarefa que envolva a criação de código ou arquivos de projeto (Terraform, Docker, etc.)
+    para garantir que os padrões da empresa sejam seguidos. A entrada deve ser uma pergunta clara sobre o que você está procurando.
+    Exemplo: 'qual o padrão para criar um bucket S3 no terraform?'
+    """
+    print(f"DEBUG: Consultando a base de conhecimento com a query: '{query}'")
+    retrieved_docs = retriever.invoke(query)
+    # Formata a saída para ser facilmente compreendida pela LLM
+    context = "\n\n---\n\n".join([doc.page_content for doc in retrieved_docs])
+    if not context:
+        return "Nenhuma informação relevante encontrada na base de conhecimento."
+    return f"Informação relevante encontrada na base de conhecimento:\n\n{context}"
 
 @tool
 def create_directory(directory_path: str) -> str:
