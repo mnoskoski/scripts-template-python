@@ -36,6 +36,7 @@ def compare_dates():
     print(f"Start Date: {start_date}, \nEnd Date: {end_date}\n")
     if datetime.date.today() >= datetime.date.fromisoformat(start_date) and datetime.date.today() <= datetime.date.fromisoformat(end_date):
         print("::warning::We are in the freezing period")
+        sys.exit(1)
     else:
         print("We are not in the freezing period")
 
